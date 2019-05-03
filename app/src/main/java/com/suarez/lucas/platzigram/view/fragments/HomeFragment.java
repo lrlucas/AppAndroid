@@ -2,6 +2,7 @@ package com.suarez.lucas.platzigram.view.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,17 +12,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.suarez.lucas.platzigram.R;
 import com.suarez.lucas.platzigram.adapter.PictureAdapterRecyclerView;
+import com.suarez.lucas.platzigram.adapter.PostAdapterRecyclerView;
+import com.suarez.lucas.platzigram.api.AppCliente;
+import com.suarez.lucas.platzigram.api.AppFirebaseService;
+import com.suarez.lucas.platzigram.api.PostResponse;
 import com.suarez.lucas.platzigram.model.Picture;
+import com.suarez.lucas.platzigram.model.Post;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+    RecyclerView picturesRecycler;
+    LinearLayoutManager linearLayoutManager;
+    ArrayList<Post> posts;
+    PostAdapterRecyclerView postAdapterRecyclerView;
 
 
     public HomeFragment() {
@@ -35,16 +50,53 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         showToolbar(getResources().getString(R.string.tab_home), false, view);
-        RecyclerView picturesRecycler = (RecyclerView) view.findViewById(R.id.pictureRecycler);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        posts = new ArrayList<>();
+
+        populateData();
+
+        picturesRecycler = (RecyclerView) view.findViewById(R.id.pictureRecycler);
+        linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         picturesRecycler.setLayoutManager(linearLayoutManager);
 
-        PictureAdapterRecyclerView pictureAdapterRecyclerView =
-                new PictureAdapterRecyclerView(buildPictures(), R.layout.cardview_picture, getActivity());
+        postAdapterRecyclerView = new PostAdapterRecyclerView(posts, R.layout.cardview_picture, getActivity());
+        picturesRecycler.setAdapter(postAdapterRecyclerView);
 
-        picturesRecycler.setAdapter(pictureAdapterRecyclerView);
+
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewPostFragment newPostFragment = new NewPostFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newPostFragment).addToBackStack(null).commit();
+            }
+        });
+
         return view;
+    }
+
+    private void populateData() {
+        AppFirebaseService service = (new AppCliente()).getService();
+        Call<PostResponse> postListCall = service.getPostList();
+        postListCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                if(response.isSuccessful()) {
+                    PostResponse result = response.body();
+                    posts.clear();
+                    //TODO aqui se meten todas las images al post
+                    posts.addAll(result.getPostList());
+                    postAdapterRecyclerView.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                System.out.println("Error la ptm");
+            }
+        });
     }
 
     public ArrayList<Picture> buildPictures() {
