@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.suarez.lucas.platzigram.R;
+import com.suarez.lucas.platzigram.view.fragments.Home2Fragment;
 import com.suarez.lucas.platzigram.view.fragments.HomeFragment;
 import com.suarez.lucas.platzigram.view.fragments.ProfileFragment;
 import com.suarez.lucas.platzigram.view.fragments.SearchFragment;
@@ -31,7 +32,8 @@ public class ContainerActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId()){
                     case R.id.homeTap:
-                        addFragment(new HomeFragment());
+//                        addFragment(new HomeFragment());
+                        addFragment(new Home2Fragment());
                         viewIsAtHome = true;
                         break;
                     case R.id.profileTap:

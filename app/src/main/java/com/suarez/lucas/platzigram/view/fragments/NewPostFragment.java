@@ -78,7 +78,8 @@ public class NewPostFragment extends Fragment {
         storageReference1 = storage.getReferenceFromUrl(Constants.FIREBASE_STORAGE_URL);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
+        // error aqui cuando se quiere persistir la data
+//        firebaseDatabase.setPersistenceEnabled(true);
         postReference = firebaseDatabase.getReference(Constants.FIREBASE_DATABASE_LOCATION_POST);
         //endtest
 
