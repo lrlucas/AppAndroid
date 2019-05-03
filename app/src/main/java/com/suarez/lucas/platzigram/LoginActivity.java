@@ -2,12 +2,14 @@ package com.suarez.lucas.platzigram;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextInputEditText etEmail;
     TextInputEditText etPassword;
+    TextView txtCreateHere;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -30,10 +33,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         etEmail = findViewById(R.id.username);
         etPassword = findViewById(R.id.password);
+        txtCreateHere = findViewById(R.id.createHere);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // remover
         etEmail.setText("lucas1@gmail.com");
         etPassword.setText("123456");
+
+        //subrayado de texto
+        txtCreateHere.setPaintFlags(txtCreateHere.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Button btnLogin = findViewById(R.id.login);
         btnLogin.setOnClickListener(new View.OnClickListener() {

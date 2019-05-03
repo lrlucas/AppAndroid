@@ -21,10 +21,10 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="184dp"
-                android:layout_height="54dp"
+                android:layout_width="133dp"
+                android:layout_height="133dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/platzigram"
+                android:background="@drawable/logoproyecto"
                 android:contentDescription="@string/logo_platzigram" />
 
         </RelativeLayout>
@@ -52,7 +52,7 @@
                         android:id="@+id/username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_username"
+                        android:hint="@string/hint_email"
                         android:inputType="textEmailAddress"
                         />
                 </android.support.design.widget.TextInputLayout>
