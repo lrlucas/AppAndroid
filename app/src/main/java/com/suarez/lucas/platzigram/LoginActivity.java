@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail.setText("lucas1@gmail.com");
         etPassword.setText("123456");
 
-        //subrayado de texto
+        //subrayado de texto "Crear una aqui"
         txtCreateHere.setPaintFlags(txtCreateHere.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Button btnLogin = findViewById(R.id.login);
@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+                // aqui validamos que los campos del login no sean vacias y tengan espacios
                 if(email.length() > 0 && password.length() > 0) {
                     firebaseAuth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
