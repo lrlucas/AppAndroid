@@ -20,10 +20,14 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <!--<include layout="@layout/cardview_picture"></include>-->
-        <TextView
+        <!--recycler View de prueba-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/customRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="la ptm tengo que hacerlo de nuevo"/>
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
 
