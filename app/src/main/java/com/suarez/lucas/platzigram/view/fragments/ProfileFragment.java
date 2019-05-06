@@ -1,6 +1,9 @@
 package com.suarez.lucas.platzigram.view.fragments;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.suarez.lucas.platzigram.LoginActivity;
 import com.suarez.lucas.platzigram.R;
 import com.suarez.lucas.platzigram.adapter.PictureAdapterRecyclerView;
 import com.suarez.lucas.platzigram.model.Picture;
@@ -21,6 +27,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
+    TextView txtUsernameProfile;
 
 
     public ProfileFragment() {
@@ -35,6 +42,12 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         showToolbar("", false, view);
 
+        txtUsernameProfile = view.findViewById(R.id.usernameProfile);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = prefs.getString("email", "");
+        txtUsernameProfile.setText(email);
+
         RecyclerView picturesRecycler = (RecyclerView) view.findViewById(R.id.pictureProfileRecycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -44,6 +57,16 @@ public class ProfileFragment extends Fragment {
                 new PictureAdapterRecyclerView(buildPictures(), R.layout.cardview_picture, getActivity());
 
         picturesRecycler.setAdapter(pictureAdapterRecyclerView);
+
+        //onClick logout
+        Button btnLogout = view.findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         return view;
@@ -66,5 +89,6 @@ public class ProfileFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
 
     }
+
 
 }

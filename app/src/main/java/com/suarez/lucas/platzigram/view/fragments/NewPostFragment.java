@@ -140,6 +140,7 @@ public class NewPostFragment extends Fragment {
     private void createNewPost(String imageUrl) {
         SharedPreferences prefs = getActivity().getSharedPreferences("USER", Context.MODE_PRIVATE);
         String email = prefs.getString("email", "");
+
         String enCodedEmail = email.replace(".",",");
 
 

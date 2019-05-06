@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(email.length() > 0 && password.length() > 0) {
                     firebaseAuth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                String password2 = etPassword.getText().toString().trim();
+
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(!task.isSuccessful()) {
@@ -66,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                                         FirebaseUser user = task.getResult().getUser();
                                         SharedPreferences.Editor sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE).edit();
                                         sharedPreferences.putString("email", user.getEmail());
+                                        sharedPreferences.putString("password", password2);
                                         sharedPreferences.commit();
 //                                        sharedPreferences.apply();
                                         Toast.makeText(LoginActivity.this, "Login correcto", Toast.LENGTH_LONG).show();
@@ -79,14 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email o Password vacios", Toast.LENGTH_SHORT).show();
                 }
 
-
-
-
-
             }
         });
 
     }
+
 
 
 
@@ -99,5 +99,10 @@ public class LoginActivity extends AppCompatActivity {
     public void goHome() {
         Intent intent = new Intent(this, ContainerActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
     }
 }
